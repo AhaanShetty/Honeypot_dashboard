@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}"> 
+    <link href="{{ url_for('static',filename='assets/vendor/fonts/circular-std/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/libs/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/fonts/fontawesome/css/fontawesome-all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/charts/chartist-bundle/chartist.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/charts/morris-bundle/morris.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/charts/c3charts/c3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendor/fonts/flag-icon-css/flag-icon.min.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="http://localhost:5000/">Home</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- left sidebar -->
+        <!-- ============================================================== -->
+        <div class="nav-left-sidebar sidebar-dark">
+            <div class="menu-list">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-divider">
+                                Menu
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="http://localhost:5000/">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2">Visualization</a>
+                                <div id="submenu-2" class="collapse submenu" >
+                                    <ul class="nav flex-column">
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="http://localhost:5000/snort">Snort</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="http://localhost:5000/suricata">Suricata</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="http://localhost:5000/cowrie">Cowrie</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Association.html">Association</a>
+                                
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="Clustering.html">Clustering</a>
+                                
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Classification.html">Classification</a>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        {% block body %} {% endblock %}
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="{{ url_for('static',filename='assets/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+    <!-- bootstap bundle js -->
+    <script src="{{ url_for('static',filename='assets/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    <!-- slimscroll js -->
+    <script src="{{ url_for('static',filename='assets/vendor/slimscroll/jquery.slimscroll.js') }}"></script>
+    <!-- main js -->
+    <script src="{{ url_for('static',filename='assets/libs/js/main-js.js') }}"></script>
+    <!-- chart chartist js -->
+    <script src="{{ url_for('static',filename='assets/vendor/charts/chartist-bundle/chartist.min.js') }}"></script>
+    <!-- sparkline js -->
+    <script src="{{ url_for('static',filename='assets/vendor/charts/sparkline/jquery.sparkline.js') }}"></script>
+    <!-- morris js -->
+    <script src="{{ url_for('static',filename='assets/vendor/charts/morris-bundle/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/vendor/charts/morris-bundle/morris.js') }}"></script>
+    <!-- chart c3 js -->
+    <script src="{{ url_for('static',filename='assets/vendor/charts/c3charts/c3.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/vendor/charts/c3charts/d3-5.4.0.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/vendor/charts/c3charts/C3chartjs.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/libs/js/dashboard-ecommerce.js') }}"></script>  
+    <script src="{{ url_for('static', filename='js/plot.js') }}"></script>
+</body> 
+    
+ 
+</html>
