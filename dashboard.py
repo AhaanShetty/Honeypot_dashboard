@@ -120,6 +120,25 @@ def overall_threat_categories():
 
     return graphJSON
 
+def get_country_map():
+    count_snort = snor['Country']
+    count_suri = suri['Country']
+    count_cow = cow['Country']
+    final_country_count = pd.concat([count_snort,count_suri,count_cow],ignore_index = True)
+    country_count = pd.value_counts(final_country_count)
+    country_ind = country_count.index
+    x_name = []
+    y_count = []
+    x_name.extend(country_ind[0:5])
+    y_count.extend(country_count[0:5])
+    data=[
+        go.Pie(
+                labels=x_name, values=y_count
+                )
+        ]
+    graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return graphJSON
 
 '''
 response = reader.city('36.81.2.163')

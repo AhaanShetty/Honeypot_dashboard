@@ -2,7 +2,7 @@ from flask import Flask, render_template,url_for,send_file, request
 from snort import get_protocol_graph_snort, top_signatures_snort, source_ip_snort,timeofday_snort,attack_types_snort,dest_ports_snort
 from suricata import get_protocol_graph_suri,top_signatures_suri,source_ip_suri,timeofday_suri,attack_types_suri,dest_ports_suri
 from cowrie import source_ip_cowrie,dest_ports_cowrie,timeofday_cowrie,top_passwords,top_usernames, country
-from dashboard import get_count,overall_threat_categories
+from dashboard import get_count,overall_threat_categories, get_country_map
 import plotly
 import plotly.graph_objects as go
 import json
@@ -18,7 +18,8 @@ lay = json.dumps(layout, cls=plotly.utils.PlotlyJSONEncoder)
 def index():
     count = get_count()
     attack_graph = overall_threat_categories()
-    return render_template('index.html',total_count = count[0],last_day = count[1],last_week = count[2],last_month = count[3],attack_graph = attack_graph)
+    country_graph = get_country_map()
+    return render_template('index.html',total_count = count[0],last_day = count[1],last_week = count[2],last_month = count[3],attack_graph = attack_graph,country_graph = country_graph)
 
 @app.route('/snort', methods=['GET','POST'])
 def snort():
