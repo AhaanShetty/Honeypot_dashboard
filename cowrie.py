@@ -96,6 +96,7 @@ def top_usernames(value):
                     x=x_name,
                     y=y_count,
                     name='Attack',
+                    hovertemplate ='<i>Username</i>: %{x}'+'<br><b>Count</b>: %{y}'
                     )
         ]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
@@ -118,6 +119,7 @@ def top_passwords(value):
                     x=x_name,
                     y=y_count,
                     name='Attack',
+                    hovertemplate ='<i>Password</i>: %{x}'+'<br><b>Value</b>: %{y}'
                     )
         ]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
@@ -139,7 +141,8 @@ def source_ip_cowrie(value):
             go.Bar(
                     x=x_name,
                     y=y_count,
-                    name='Attack'
+                    name='Attack',
+                    hovertemplate ='<i>Source IP</i>: %{x}'+'<br><b>Value</b>: %{y}'
                     )
         ]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)

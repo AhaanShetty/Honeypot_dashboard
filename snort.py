@@ -45,8 +45,8 @@ def top_signatures_snort(value):
         go.Bar(
                 x=y_count,
                 y=x_name,
-                name='Attack',
-                orientation='h'
+                orientation='h',
+                hovertemplate ='<i>Signature</i>: %{y}'+'<br><b>Value</b>: %{x}'
                 )
         ]   
     
@@ -69,7 +69,8 @@ def source_ip_snort(value):
             go.Bar(
                     x=x_name,
                     y=y_count,
-                    name='Attack'
+                    name='Attack',
+                    hovertemplate ='<i>Source IP</i>: %{x}'+'<br><b>Count</b>: %{y}'
                     )
         ]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
@@ -127,7 +128,8 @@ def dest_ports_snort(value):
         go.Bar(
                 x=x_name,
                 y=y_count,
-                name='Attack'
+                name='Attack',
+                hovertemplate ='<i>Destination Port</i>: %{x}'+'<br><b>Count</b>: %{y}'
             )
         ]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)

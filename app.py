@@ -13,7 +13,12 @@ layout = go.Layout(
             xaxis_type='category'
         )
 lay = json.dumps(layout, cls=plotly.utils.PlotlyJSONEncoder)
-
+'''
+config = go.Layout(
+            xaxis_type='category'
+        )
+lay = json.dumps(layout, cls=plotly.utils.PlotlyJSONEncoder)
+'''
 @app.route('/')
 def index():
     count = get_count()
