@@ -45,7 +45,8 @@
                                 <div class="chart" id="protocol_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ protocol | safe }};
-                                        Plotly.plot('protocol_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('protocol_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -57,6 +58,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="text-muted" style="text-align: center;">Top Signatures</h4>
+                                <!--
                                 <div class="col-xs-3">
                                     <label> Choose top signatures</label>
                                     <select class="form-control" id ='top_sig'>
@@ -64,10 +66,12 @@
                                         <option value="10">Top 10</option>
                                     </select>
                                 </div>
+                            -->
                                 <div class="chart" id="signature_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ signature_plot | safe }};
-                                        Plotly.plot('signature_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('signature_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -85,7 +89,8 @@
                                 <div class="chart" id="source_ip_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ ipaddr | safe }};
-                                        Plotly.plot('source_ip_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('source_ip_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -100,7 +105,8 @@
                                 <div class="chart" id="timeofday_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ tod | safe }};
-                                        Plotly.plot('timeofday_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('timeofday_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -118,7 +124,8 @@
                                 <div class="chart" id="attack_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ attack | safe }};
-                                        Plotly.plot('attack_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('attack_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -134,7 +141,8 @@
                                     <script type="text/javascript">
                                         var graphs = {{ dest_port | safe }};
                                         var layout = {{ layout | safe }}
-                                        Plotly.newPlot('destport_graph', graphs,layout,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.newPlot('destport_graph', graphs,layout,config);
                                     </script>
                                 </div>
                                 

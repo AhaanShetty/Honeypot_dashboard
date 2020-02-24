@@ -1,8 +1,9 @@
 from flask import Flask, render_template,url_for,send_file, request
 from snort import get_protocol_graph_snort, top_signatures_snort, source_ip_snort,timeofday_snort,attack_types_snort,dest_ports_snort
 from suricata import get_protocol_graph_suri,top_signatures_suri,source_ip_suri,timeofday_suri,attack_types_suri,dest_ports_suri
-from cowrie import source_ip_cowrie,dest_ports_cowrie,timeofday_cowrie,top_passwords,top_usernames, country
+from cowrie import source_ip_cowrie,timeofday_cowrie,top_passwords,top_usernames, country
 from dashboard import get_count,overall_threat_categories, get_country_map
+from classify import get_graph
 import plotly
 import plotly.graph_objects as go
 import json
@@ -13,12 +14,19 @@ layout = go.Layout(
             xaxis_type='category'
         )
 lay = json.dumps(layout, cls=plotly.utils.PlotlyJSONEncoder)
-'''
-config = go.Layout(
-            xaxis_type='category'
-        )
-lay = json.dumps(layout, cls=plotly.utils.PlotlyJSONEncoder)
-'''
+
+layout_class = go.Layout(
+    title="Decision Tree Classifier(Blue) vs Random Forest Classifier(Red)",
+    xaxis_title="No. of Alerts",
+    yaxis_title="Accuracy",
+    font=dict(
+        family="Courier New, monospace",
+        size=18,
+        color="#7f7f7f"
+    )
+)
+lay1 = json.dumps(layout_class, cls=plotly.utils.PlotlyJSONEncoder)
+
 @app.route('/')
 def index():
     count = get_count()
@@ -54,10 +62,9 @@ def cowrie():
     tod = timeofday_cowrie()
     unames = top_usernames(val)
     passw = top_passwords(val)
-    dest_port = dest_ports_cowrie(val)
     ip = source_ip_cowrie(val)
     country_names = country(val)
-    return render_template('cowrie_page.html', tod = tod,usernames = unames,passwords = passw,dest_port = dest_port,ipaddr = ip,country_names = country_names,layout = lay)
+    return render_template('cowrie_page.html', tod = tod,usernames = unames,passwords = passw,ipaddr = ip,country_names = country_names,layout = lay)
 
 @app.route('/snort/change',methods=['GET','POST'])
 def on_change():
@@ -70,6 +77,12 @@ def on_change():
 @app.route('/map')
 def map():
     return render_template('heat.html')
+
+@app.route('/classification')
+def classify():
+    classification_graph = get_graph()
+    print(classification_graph)
+    return render_template('classification_page.html',classification_graph = classification_graph, layout = lay1)
 
 if __name__ == '__main__':
     app.run(debug=True)

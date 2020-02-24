@@ -169,29 +169,4 @@ def country(value):
 
     return graphJSON
 
-def dest_ports_cowrie(value):
-    dest_port_count = pd.value_counts(data_cowrie['destination_port'])
-    dest_port_ind = dest_port_count.index
-    z = [str(int(item)) for item in dest_port_ind]
-    #z = dest_port_ind.astype(object)
-    y=list(dest_port_count)
-    x_name =[]
-    y_count = []
-    if value == "5":
-        x_name.extend(z[0:5])
-        y_count.extend(y[0:5])
-    if value == "10":
-        x_name.extend(z[0:10])
-        y_count.extend(y[0:10])
-    data=[
-        go.Bar(
-                x=x_name,
-                y=y_count,
-                name='Attack'
-            )
-        ]
-        
-    graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
-
-    return graphJSON
     

@@ -45,7 +45,8 @@
                                 <div class="chart" id="top_usernames">
                                     <script type="text/javascript">
                                         var graphs = {{ usernames | safe }};
-                                        Plotly.plot('top_usernames',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('top_usernames',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -60,7 +61,8 @@
                                 <div class="chart" id="top_passwords">
                                     <script type="text/javascript">
                                         var graphs = {{ passwords | safe }};
-                                        Plotly.plot('top_passwords',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('top_passwords',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -78,7 +80,8 @@
                                 <div class="chart" id="source_ip_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ ipaddr | safe }};
-                                        Plotly.plot('source_ip_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('source_ip_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -93,7 +96,8 @@
                                 <div class="chart" id="timeofday_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ tod | safe }};
-                                        Plotly.plot('timeofday_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('timeofday_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -111,7 +115,8 @@
                                 <div class="chart" id="country_graph">
                                     <script type="text/javascript">
                                         var graphs = {{ country_names | safe }};
-                                        Plotly.plot('country_graph',graphs,{});
+                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
+                                        Plotly.plot('country_graph',graphs,{},config);
                                     </script>
                                 </div>
                                 
@@ -119,6 +124,7 @@
                             
                         </div>
                     </div>
+                    <!--
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
@@ -135,6 +141,7 @@
                             
                         </div>
                     </div>
+                    -->
                 </div>
 
                 
