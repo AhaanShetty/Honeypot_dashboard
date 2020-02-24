@@ -77,7 +77,7 @@ for i in range(40):
     y_predict = RF.predict(x_test)
     t2 = round((time.time() - t1 - t0),4)
 
-    print(t1,t2)
+    #print(t1,t2)
     z1 = accuracy_score(y_test, y_predict)
 
     t = t+500
