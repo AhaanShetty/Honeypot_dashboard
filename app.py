@@ -78,6 +78,7 @@ def on_change():
 def map():
     return render_template('heat.html')
 
+
 @app.route('/classification')
 def classify():
     classification_graph = get_graph()
