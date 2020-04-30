@@ -35,6 +35,92 @@
             </br>
             </br>
         -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+            calculate();
+            //setInterval(ajaxd,5000); // call every 3 seconds
+            function calculate() { 
+                $.getJSON("/cowriedata", function(result){
+                    var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']};
+                    var layout = result.layout;
+                    var tod = result.tod;
+                    var unames = result.unames;
+                    var passw = result.passw;
+                    var ip = result.ip;
+                    var country_names = result.country_names;
+                    usernames_calc(unames,config);
+                    passwords_calc(passw,config,layout);
+                    ip_calc(ip,config);
+                    tod_calc(tod,config);
+                    country_names_calc(country_names,config);
+                });
+                setTimeout(calculate,8000);
+            }
+            function tod_calc(tod,config){
+                var len = tod.length;
+                var new_tod = tod.substring(1,len-1);
+                var temp = JSON.parse(new_tod);
+                var data = [{
+                    values: temp.values,
+                    labels: temp.labels,
+                    type: 'pie'
+                    }];
+                Plotly.newPlot('timeofday_graph',data,{},config);
+            }
+            function usernames_calc(unames,config){
+                var len = unames.length;
+                var new_unames = unames.substring(1,len-1);
+                var temp = JSON.parse(new_unames);
+                var data = [{
+                    x: temp.x,
+                    y: temp.y,
+                    hovertemplate:temp.hovertemplate,
+                    type: 'bar'
+                    }];
+                Plotly.newPlot('top_usernames',data,{},config);
+            }
+            function passwords_calc(passw,config,layout){
+                var len = passw.length;
+                var new_passw = passw.substring(1,len-1);
+                var temp = JSON.parse(new_passw);
+                var data = [{
+                    x: temp.x,
+                    y: temp.y,
+                    hovertemplate:temp.hovertemplate,
+                    type: 'bar'
+                    }];
+                var layout1 = {
+                        xaxis: {
+                            type:'category'
+                        }
+                    };  
+                Plotly.newPlot('top_passwords',data,layout1,config);
+            }
+            function ip_calc(ip,config){
+                var len = ip.length;
+                var new_ip = ip.substring(1,len-1);
+                var temp = JSON.parse(new_ip);
+                var data = [{
+                    x: temp.x,
+                    y: temp.y,
+                    hovertemplate:temp.hovertemplate,
+                    type: 'bar'
+                    }];
+                Plotly.newPlot('source_ip_graph',data,{},config);
+            }
+            function country_names_calc(country_names,config){
+                var len = country_names.length;
+                var new_country_names = country_names.substring(1,len-1);
+                var temp = JSON.parse(new_country_names);
+                var data = [{
+                    labels: temp.labels,
+                    values: temp.values,
+                    type: 'pie'
+                    }];
+                Plotly.newPlot('country_graph',data,{},config);
+            }
+            });
+        </script>
             <div class="ecommerce-widget">
 
                 <div class="row">
@@ -43,15 +129,8 @@
                             <div class="card-body">
                                 <h4 class="text-muted" style="text-align: center;">Top Usernames</h4>
                                 <div class="chart" id="top_usernames">
-                                    <script type="text/javascript">
-                                        var graphs = {{ usernames | safe }};
-                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
-                                        Plotly.plot('top_usernames',graphs,{},config);
-                                    </script>
-                                </div>
-                                
-                            </div>
-                            
+                                </div> 
+                            </div>                            
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -59,11 +138,7 @@
                             <div class="card-body">
                                 <h4 class="text-muted" style="text-align: center;">Top Passwords</h4>
                                 <div class="chart" id="top_passwords">
-                                    <script type="text/javascript">
-                                        var graphs = {{ passwords | safe }};
-                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
-                                        Plotly.plot('top_passwords',graphs,{},config);
-                                    </script>
+                                    
                                 </div>
                                 
                             </div>
@@ -78,11 +153,7 @@
                             <div class="card-body">
                                 <h4 class="text-muted" style="text-align: center;">Attacks by source IP addresses</h4>
                                 <div class="chart" id="source_ip_graph">
-                                    <script type="text/javascript">
-                                        var graphs = {{ ipaddr | safe }};
-                                        var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
-                                        Plotly.plot('source_ip_graph',graphs,{},config);
-                                    </script>
+                                    
                                 </div>
                                 
                             </div>
@@ -94,11 +165,11 @@
                             <div class="card-body">
                                 <h4 class="text-muted" style="text-align: center;">Attacks based on time of day</h4>
                                 <div class="chart" id="timeofday_graph">
-                                    <script type="text/javascript">
+                                    <!-- <script type="text/javascript">
                                         var graphs = {{ tod | safe }};
                                         var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
                                         Plotly.plot('timeofday_graph',graphs,{},config);
-                                    </script>
+                                    </script> -->
                                 </div>
                                 
                             </div>
@@ -113,35 +184,17 @@
                             <div class="card-body">
                                 <h5 class="text-muted" style="text-align: center;">Based on source country</h5>
                                 <div class="chart" id="country_graph">
-                                    <script type="text/javascript">
+                                    <!-- <script type="text/javascript">
                                         var graphs = {{ country_names | safe }};
                                         var config= {displaylogo: false, modeBarButtonsToRemove: ['pan2d','lasso2d','zoomIn2d','zoomOut2d','autoScale2d','resetScale2d','select2d','toggleSpikelines']}
                                         Plotly.plot('country_graph',graphs,{},config);
-                                    </script>
+                                    </script> -->
                                 </div>
                                 
                             </div>
                             
                         </div>
                     </div>
-                    <!--
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="text-muted" style="text-align: center;">Attacks based on destination ports</h4>
-                                <div class="chart" id="destport_graph">
-                                    <script type="text/javascript">
-                                        var graphs = {{ dest_port | safe }};
-                                        var layout = {{ layout | safe }}
-                                        Plotly.newPlot('destport_graph', graphs,layout,{});
-                                    </script>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    -->
                 </div>
 
                 
@@ -150,13 +203,6 @@
             </div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- footer -->
-    <!-- ============================================================== -->
-    
-    <!-- ============================================================== -->
-    <!-- end footer -->
-    <!-- ============================================================== -->
 </div>
 {% endblock %}
 

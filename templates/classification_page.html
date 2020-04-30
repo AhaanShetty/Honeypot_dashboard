@@ -8,14 +8,11 @@
 <div class="dashboard-wrapper">
     <div class="dashboard-ecommerce">
         <div class="container-fluid dashboard-content ">
-            <!-- ============================================================== -->
-            <!-- pageheader  -->
-            <!-- ============================================================== -->
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header">
-                        <h2 class="pageheader-title">Classification</h2>
-                        <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+                        <h2 class="pageheader-title">Proposed enhancement of performance of SNORT IDS</h2>
+                        
                         
                     </div>
                 </div>
@@ -35,7 +32,7 @@
             -->
             <div class="ecommerce-widget">
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-12" style="height: auto;">
                         <div class="card">
                             <div class="card-body">
@@ -54,18 +51,194 @@
                         </div>
                     </div>
             
-                </div>                               
-                
+                </div>                                -->
+
+                <!-- Introduction -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <h3 class="text-muted card-header">Introduction</h3>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <p style="font-size:15px">
+                                        The traditional approach to IDS packet inspection checks a packet against the detection rules by scanning from the first rule in the set and continuing to scan all the rules until a match is found. This approach becomes inefficient if the number of rules is too large and if the majority of the packets match with rules located at the end of the ruleset.<br><br>
+                                        This would negatively affect an IDS’s performance and may result in errors, allowing some packets to pass into the network without analysis and detection. Therefore, an IDS should find the right rule as fast as possible, without any performance issues.<br><br>
+                                        In this project, we propose an intelligent predictive technique for packet inspection based on data mining. We consider each rule in a rule set as a ‘class’. A classifier is first trained with labeled training data. Then the classifier is used to classify new incoming packets. The predicted class, i.e. rule, is checked against the packet to see if this packet really matches the predicted rule. If it does, the corresponding action (i.e. alert) of the rule is taken.<br><br>
+                                        The advantage of this intelligent predictive packet matching is that it offers much faster rule matching.
+                                    </p>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results and Discussions -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <h3 class="text-muted card-header">Results and discussion</h3>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <h4>Decision Tree classifier</h4>
+                                    <p style="font-size:15px">
+                                        <img src="{{ url_for('static',filename='images/dtc1.png') }}" style="display: block;margin-left: auto;margin-right: auto;border: 1px solid grey;">
+                                        <p style="text-align: center;">Left child nodes and Root of Decision tree</p>
+                                        The first split of the decision tree is based on the “Destination Port” attribute and the Left Child node of the root is split on the attribute “Destination_IP”.<br><br>
+                                        <img src="{{ url_for('static',filename='images/dtc2.png') }}" style="display: block;margin-left: auto;margin-right: auto;border: 1px solid grey;">
+                                        <p style="text-align: center;">Right Child nodes of the root of Decision tree</p>
+                                        The right child node of the root is split on the attribute “Source_Port”.
+                                    </p>
+                                    <hr>
+                                    <h4>Accuracy </h4>
+                                    <p style="font-size: 15px;">
+                                        The data collected by our 2 Snort honeypots, on AWS, was used for testing the accuracy of the system. <br>
+                                        Accuracy was calculated by varying the number of alerts used to train and test and a graph is plotted. The total number of alerts is ~47000. Two types of classifiers are used to test the accuracy : Decision tree and Random Forest.<br>
+                                        As we can see in the graph, the size of the training data has a direct impact on the accuracy of the classifier. Accuracy increases with the number of alerts linearly initially but then becomes stable.<br>
+                                        Average accuracy = ~75%<br><br>
+                                        <img src="{{ url_for('static',filename='images/class_graph.png') }}">
+                                    </p>
+                                    <hr>
+                                    <h4>Processing Time </h4>
+                                    <p style="font-size: 15px;">
+                                        The processing time of the proposed system is compared with that of Snort.<br>
+                                        We have used a standard IDS dataset from<br>
+                                        <a href="https://www.netresec.com/?page=PCAP4SICS"><i><b>https://www.netresec.com/?page=PCAP4SICS</b></i></a><br>
+                                        This is a capture file from the network traffic at the ICS lab at "Geek Lounge" at 4SICS. The size of the pcap file is ~200 mb and consists of ~2 million packets.<br>
+                                        The pcap file was given input to Snort to generate ~800000 alerts. <br>
+                                        First Snort was run over this pcap file by varying the number of packets and noting the processing time.<br>
+                                        Then, alerts generated by Snort from this pcap file were used to create the Classifier. 100000 alerts were used for training. The classifier was tested from the remaining alerts by varying the number of alerts.<br>
+                                        <table class="table table-bordered table-hover table-condensed">
+                                            <thead style="text-align: center;">
+                                                <tr>
+                                                    <th>No. of packets/alerts</th>
+                                                    <th>Snort’s processing time (s)</th>
+                                                    <th>Classifier’s prediction time (s)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="text-align: center;">
+                                                <tr>
+                                                   <td>25000</td>
+                                                   <td>1.261</td>
+                                                   <td>0.006692886353</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>50000</td>
+                                                    <td>1.466</td>
+                                                    <td>0.01148366928</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>75000</td>
+                                                    <td>1.426</td>
+                                                    <td>0.01686906815</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>100000</td>
+                                                    <td>1.562</td>
+                                                    <td>0.04156780243</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>125000</td>
+                                                    <td>1.478</td>
+                                                    <td>0.05448269844</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>150000</td>
+                                                    <td>1.7</td>
+                                                    <td>0.06368660927</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>175000</td>
+                                                    <td>2.156</td>
+                                                    <td>0.07247209549</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>200000</td>
+                                                    <td>2.258</td>
+                                                    <td>0.08359599113</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>225000</td>
+                                                    <td>2.316</td>
+                                                    <td>0.09191250801</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>250000</td>
+                                                    <td>2.338</td>
+                                                    <td>0.1037993431</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>275000</td>
+                                                    <td>2.363</td>
+                                                    <td>0.1120662689</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>300000</td>
+                                                    <td>3.149</td>
+                                                    <td>0.1229896545</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>325000</td>
+                                                    <td>3.302</td>
+                                                    <td>0.1330125332</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>350000</td>
+                                                    <td>3.312</td>
+                                                    <td>0.1425921917</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>375000</td>
+                                                    <td>3.507</td>
+                                                    <td>0.1524569988</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>400000</td>
+                                                    <td>3.466</td>
+                                                    <td>0.1655368805</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>425000</td>
+                                                    <td>3.837</td>
+                                                    <td>0.1739850044</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>450000</td>
+                                                    <td>4.376</td>
+                                                    <td>0.1831862926</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>475000</td>
+                                                    <td>4.456</td>
+                                                    <td>0.1965765953</td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td>500000</td>
+                                                    <td>4.404</td>
+                                                    <td>0.2055330276</td>
+                                                </tr>
+                                            </tbody>
+                                        </table><br>
+                                        <b>Note</b>: Here, we have considered only the prediction time of the classifier and not the feature extraction time. The actual time for the proposed system is feature extraction time ( i.e. To preprocess the packet ) and the prediction time. But since we are using alerts instead of packets, generated from Snort, for the Classifier, there is no need for processing it. But in real-time, the actual time of the Classifier will include feature extraction time.<br><br>
+                                        As we can see in the graph, the processing time of Snort is ~20 times that of the prediction time of the Classifier.<br>
+                                        Training time required by Classifier for 100000 alerts = 4 seconds<br><br>
+                                        Even if we add the training time and feature extraction time, our Classifier’s time is still much less as compared to Snort’s processing time for a huge number of packets/alerts.<br><br>
+                                        <img src="{{ url_for('static',filename='images/classifier_time.png') }}" style="width:60%">
+                                    </p>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div> 
+
+
             </div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- footer -->
-    <!-- ============================================================== -->
-    
-    <!-- ============================================================== -->
-    <!-- end footer -->
-    <!-- ============================================================== -->
 </div>
 {% endblock %}
 

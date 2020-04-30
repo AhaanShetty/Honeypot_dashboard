@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>HEllo Ahaan</title>
+<title>Hello Ahaan</title>
 {% endblock %}
 
 {% block body %}
@@ -25,8 +25,79 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="text-muted">Overall Alert Count</h4>
+                                <script>
+                                    var all_data;
+                                    $(document).ready(function() {
+                                        ajaxd();
+                                        //setInterval(ajaxd,8000); // call every 3 seconds
+                                        function ajaxd() { 
+                                                $.getJSON("/dashgetdata", function(result){
+                                                    var alerts = JSON.parse(result.alerts);
+                                                    $("#tot_count").html(result.count[0]);
+                                                    $("#last_day").html(result.count[1]);
+                                                    $("#last_week").html(result.count[2]);
+                                                    $("#last_month").html(result.count[3]);
+                                                    var graph_attack = result.att_graph;
+                                                    var len1 = graph_attack.length;
+                                                    var new_graph_attack = graph_attack.substring(1,len1-1);
+                                                    var temp1 = JSON.parse(new_graph_attack)
+                                                    var data1 = [{
+                                                        values: temp1.values,
+                                                        labels: temp1.labels,
+                                                        type: 'pie'
+                                                        }];
+                                                    var graph_country = result.country_gra;
+                                                    var len2 = graph_country.length;
+                                                    var new_graph_country = graph_country.substring(1,len2-1);
+                                                    var temp2 = JSON.parse(new_graph_country)
+                                                    var data2 = [{
+                                                        values: temp2.values,
+                                                        labels: temp2.labels,
+                                                        type: 'pie'
+                                                        }];
+                                                    Plotly.newPlot('overall_attack_graph',data1,{});
+                                                    Plotly.newPlot('overall_country_graph',data2,{});
+                                                    // Extract value from table header. 
+                                                    var col = [];
+                                                    for (var i = 0; i < alerts.length; i++) {
+                                                        for (var key in alerts[i]) {
+                                                            if (col.indexOf(key) === -1) {
+                                                                col.push(key);
+                                                            }
+                                                        }
+                                                    }
+                                                    // Create a table.
+                                                    var table = document.createElement("table");
+                                                    table.classList.add('table','table-bordered','table-hover','table-condensed');
+                                                    // Create table header row using the extracted headers above.
+                                                    var tr = table.insertRow(-1);                   // table row.
+
+                                                    for (var i = 0; i < col.length; i++) {
+                                                        var th = document.createElement("th");      // table header.
+                                                        th.innerHTML = col[i];
+                                                        tr.appendChild(th);
+                                                    }
+
+                                                    // add json data to the table as rows.
+                                                    for (var i = 0; i < alerts.length; i++) {
+                                                         tr = table.insertRow(-1);
+                                                        for (var j = 0; j < col.length; j++) {
+                                                            var tabCell = tr.insertCell(-1);
+                                                            tabCell.innerHTML = alerts[i][col[j]];
+                                                        }
+                                                    }
+
+                                                    // Now, add the newly created table with json data, to a container.
+                                                    var divShowData = document.getElementById('showData');
+                                                    divShowData.innerHTML = "";
+                                                    divShowData.appendChild(table);
+                                                });
+                                                setTimeout(ajaxd,8000);
+                                            }
+                                    });
+                                </script>
                                 <div class="metric-value d-inline-block" style="text-align: center;">
-                                    <h1 class="mb-1" style="text-align: center;">{{ total_count }}</h1>
+                                    <h1 class="mb-1" style="text-align: center;" id="tot_count">0</h1>
                                 </div>
                                 
                             </div>
@@ -38,7 +109,7 @@
                             <div class="card-body">
                                 <h4 class="text-muted">Last Day Count</h4>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1">{{ last_day }}</h1>
+                                    <h1 class="mb-1" id="last_day">0</h1>
                                 </div>
                                 
                             </div>
@@ -50,7 +121,7 @@
                             <div class="card-body">
                                 <h4 class="text-muted">Last Week Count</h4>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1">{{ last_week }}</h1>
+                                    <h1 class="mb-1" id="last_week">0</h1>
                                 </div>
                                 
                             </div>
@@ -62,7 +133,7 @@
                             <div class="card-body">
                                 <h4 class="text-muted">Last Month Count</h4>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1">{{ last_month }}</h1>
+                                    <h1 class="mb-1" id="last_month">0</h1>
                                 </div>
                                 
                             </div>
@@ -88,10 +159,6 @@
                         <div class="card">
                             <h4 class="card-header" >Attacks by Country</h4>
                             <div class="chart" id="overall_country_graph">
-                                <script type="text/javascript">
-                                    var graphs = {{ country_graph | safe }};
-                                    Plotly.plot('overall_country_graph',graphs,{});
-                                </script>
                             </div>
                         </div>
                     </div>
@@ -100,10 +167,6 @@
                         <div class="card">
                             <h4 class="card-header" >Threat Categories</h4>
                             <div class="chart" id="overall_attack_graph">
-                                <script type="text/javascript">
-                                    var graphs = {{ attack_graph | safe }};
-                                    Plotly.plot('overall_attack_graph',graphs,{});
-                                </script>
                             </div>
                         </div>
                     </div>
@@ -115,95 +178,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                         <div class="card">
                             <h5 class="card-header">Latest Events</h5>
-                            <table class="table table-bordered table-hover table-condensed">
-                                <thead><tr><th title="Field #1">Timestamp</th>
-                                <th title="Field #2">Protocol</th>
-                                <th title="Field #3">Source_ip</th>
-                                <th title="Field #4">Source_port</th>
-                                <th title="Field #5">Destination_port</th>
-                                <th title="Field #6">Honeypot</th>
-                                </tr></thead>
-                                    <tbody><tr>
-                                    <td>2020-01-14T03:47:19.426Z</td>
-                                    <td>TCP</td>
-                                    <td>190.56.17.186</td>
-                                    <td align="right">20386</td>
-                                    <td align="right">1433</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:47:16.426Z</td>
-                                    <td>TCP</td>
-                                    <td>83.97.20.49</td>
-                                    <td align="right">57522</td>
-                                    <td align="right">1967</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:47:14.426Z</td>
-                                    <td>TCP</td>
-                                    <td>185.176.27.178</td>
-                                    <td align="right">52434</td>
-                                    <td align="right">8814</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:45:56.425Z</td>
-                                    <td>TCP</td>
-                                    <td>185.176.27.166</td>
-                                    <td align="right">43337</td>
-                                    <td align="right">53701</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:44:58.429Z</td>
-                                    <td>TCP</td>
-                                    <td>185.156.73.54</td>
-                                    <td align="right">45725</td>
-                                    <td align="right">2707</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:41:53.071Z</td>
-                                    <td>TCP</td>
-                                    <td>83.97.20.49</td>
-                                    <td align="right">33043</td>
-                                    <td align="right">1962</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:41:53.064Z</td>
-                                    <td>TCP</td>
-                                    <td>83.97.20.49</td>
-                                    <td align="right">33043</td>
-                                    <td align="right">1962</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:41:49.065Z</td>
-                                    <td>TCP</td>
-                                    <td>185.176.27.34</td>
-                                    <td align="right">45293</td>
-                                    <td align="right">13883</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:41:33.066Z</td>
-                                    <td>TCP</td>
-                                    <td>198.108.67.99</td>
-                                    <td align="right">44275</td>
-                                    <td align="right">44300</td>
-                                    <td>snort</td>
-                                    </tr>
-                                    <tr>
-                                    <td>2020-01-14T03:41:32.064Z</td>
-                                    <td>TCP</td>
-                                    <td>185.156.73.57</td>
-                                    <td align="right">42494</td>
-                                    <td align="right">3421</td>
-                                    <td>snort</td>
-                                    </tr>
-                                </tbody></table>
+                            <p id='showData'></p>
                         </div>
                     </div>
                 </div>

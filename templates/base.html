@@ -21,6 +21,22 @@
     <!-- Plotly.js -->
     <!--<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script> -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            ajaxd();
+            //setInterval(ajaxd,5000); // call every 3 seconds
+            function ajaxd() { 
+                    $.ajax({
+                        url: "/run", 
+                        success: function(result){
+                            console.log(result)
+                        }
+                    });
+                    setTimeout(ajaxd,5000)
+                }
+        });
+    </script>
     <title>Dashboard</title>
 </head>
 
@@ -80,12 +96,8 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="Association.html">Association</a>
-                                
-                            </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="Clustering.html">Clustering</a>
+                                <a class="nav-link" href="/correlation">Correlation</a>
                                 
                             </li>
                             <li class="nav-item">
@@ -98,16 +110,6 @@
             </div>
         </div>
         {% block body %} {% endblock %}
-        <!-- ============================================================== -->
-        <!-- end left sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
     </div>
     <!-- Optional JavaScript -->
     <!-- jquery 3.3.1 -->
